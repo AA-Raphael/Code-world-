@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Restaurant</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        .splash-container {
+            background-color: rgb(226, 152, 54);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .logo-container {
+            margin-bottom: 30px;
+            animation: fadeIn 1.5s ease-in-out, float 3s ease-in-out infinite alternate;
+        }
+        
+        .logo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin: 10px 0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            font-style: italic;
+            animation: fadeIn 2.5s ease-in-out;
+        }
+        
+        .enter-button {
+            background-color: white;
+            color: rgb(226, 152, 54);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeIn 3s ease-in-out;
+        }
+        
+        .enter-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-15px); }
+        }
+        
+        .background-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .food-icon {
+            position: absolute;
+            opacity: 0.1;
+            filter: brightness(1.5);
+        }
+        
+        .icon1 { top: 10%; left: 10%; width: 80px; height: 80px; animation: rotating 20s linear infinite; }
+        .icon2 { top: 70%; left: 15%; width: 60px; height: 60px; animation: rotating 15s linear infinite reverse; }
+        .icon3 { top: 30%; right: 10%; width: 70px; height: 70px; animation: rotating 25s linear infinite; }
+        .icon4 { top: 80%; right: 15%; width: 50px; height: 50px; animation: rotating 18s linear infinite reverse; }
+        .icon5 { top: 40%; left: 48%; width: 90px; height: 90px; animation: rotating 30s linear infinite; }
+        
+        @keyframes rotating {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="splash-container">
+        
+        
+        <div class="logo-container">
+            <img src="images/logo.png" alt="Restaurant Logo" class="logo">
+        </div>
+        
+        <h1>Welcome to Alpha Restaurant</h1>
+        <h2>Delicious Flavors</h2>
+        <div class="tagline">Taste the experience of authentic delicacies</div>
+        
+        <a href="homepage.html">
+            <button class="enter-button">Menu</button>
+        </a>
+    </div>
+</body>
+</html>

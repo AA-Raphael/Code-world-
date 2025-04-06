@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering Website</title>
+
+    <style>
+        body {
+            background-color: rgb(226, 152, 54);
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+
+        .main-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .searchbox {
+            padding: 12px 15px 12px 40px;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .searchbox:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(226, 152, 54, 0.5);
+            border-color: rgb(226, 152, 54);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+        
+        .clear-search {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            cursor: pointer;
+            display: none;
+        }
+
+        .sidenav {
+            width: 20%;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-right: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            object-fit: cover;
+        }
+
+        .sidemenu {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        .sidemenu li {
+            padding: 10px 0;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s ease;
+        }
+
+        .sidemenu li:hover {
+            background-color: rgb(226, 152, 54);
+            color: white;
+            padding-left: 5px;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: white;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            padding-left: 5px;
+            border-left: 5px solid white;
+        }
+
+        .food-section {
+            margin-bottom: 30px;
+        }
+
+        .foodlist {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .fooditem {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .fooditem:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .fooditem img {
+            max-width: 150px;
+            max-height: 150px;
+            margin-bottom: 10px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .fooditem-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .fooditem-price {
+            color: rgb(226, 152, 54);
+            font-weight: bold;
+        }
+        
+        .no-results {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-top: 20px;
+            display: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            color: rgb(226, 152, 54);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(-30px);
+            transition: all 0.5s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .notification-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        
+        .notification-text {
+            font-weight: bold;
+        }
+        
+        .close-notification {
+            margin-left: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="main-container">
+        <div class="sidenav">
+            <div class="logo-container">
+                <a href="homepage.html"><img src="images/logo.png" class="logo" alt="Food Ordering Logo"></a>
+               
+            </div>
+            
+            <ul class="sidemenu">
+                <a href="Toprated.html"><li>Top rated</li></a>
+                <a href="Locals.html"><li>Local</li></a>
+                <a href="Starters.html"><li>Starters</li></a>
+                <a href="MainDish.html"><li>Main Dish</li></a>
+                <a href="dessert.html"><li>Desserts</li></a>
+                <a href="Checkout.html"><li>Check out</li></a>
+                <a href="work.html"><li>Working Hours</li></a>
+            </ul>
+        </div>
+
+        <div class="content-area">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="searchbox" placeholder="Search for food..." id="searchBox">
+                <span class="clear-search" id="clearSearch">✖</span>
+            </div>
+            
+            <div class="food-section">
+                <a href="Toprated.html"><h2>Top rated</h2></a>
+                <div class="foodlist" id="localFood">
+                    <a href="#" class="fooditem-link" onclick="addToCart('Waakye', 10.99); return false;">
+                        <div class="fooditem">
+                            <img src="images/waakye.png" alt="Waakye">
+                            <div class="fooditem-name">Waakye</div>
+                            <div class="fooditem-price">$10.99</div>
+                        </div>
+                    </a>
+                    <a href="#" class="fooditem-link" onclick="addToCart('Gob3', 7.50); return false;">
+                        <div class="fooditem">
+                            <img src="images/gob3.png" alt="Gob3">
+                            <div class="fooditem-name">Gob3</div>
+                            <div class="fooditem-price">$7.50</div>
+                        </div>
+                    </a>
+                    <a href="#" class="fooditem-link" onclick="addToCart('Fufu with light soup', 14.99); return false;">
+                        <div class="fooditem">
+                            <img src="images/fufu.png" alt="Fufu">
+                            <div class="fooditem-name">Fufu with light soup</div>
+                            <div class="fooditem-price">$14.99</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="no-results" id="noResults">
+                No matching food items found. Try a different search term.
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">
+        <span class="notification-icon">🛒</span>
+        <span class="notification-text" id="notification-text"></span>
+        <span class="close-notification" onclick="closeNotification()">×</span>
+    </div>
+
+    <script>
+        
+        const searchBox = document.getElementById('searchBox');
+        const clearSearch = document.getElementById('clearSearch');
+        const noResults = document.getElementById('noResults');
+        
+       
+        function performSearch() {
+            const searchQuery = searchBox.value.toLowerCase().trim();
+            const foodItems = document.querySelectorAll('.fooditem');
+            const foodItemLinks = document.querySelectorAll('.fooditem-link');
+            let resultsFound = false;
+            
+            
+            clearSearch.style.display = searchQuery.length > 0 ? 'block' : 'none';
+            
+            foodItems.forEach((item, index) => {
+                const foodName = item.querySelector('.fooditem-name').textContent.toLowerCase();
+                const matchFound = foodName.includes(searchQuery);
+                
+                foodItemLinks[index].classList.toggle('hidden', !matchFound && searchQuery.length > 0);
+                
+                if (matchFound && searchQuery.length > 0) {
+                    resultsFound = true;
+                }
+            });
+            
+           
+            noResults.style.display = (searchQuery.length > 0 && !resultsFound) ? 'block' : 'none';
+            
+            
+            const sections = document.querySelectorAll('.food-section');
+            sections.forEach(section => {
+                const sectionItems = section.querySelectorAll('.fooditem-link');
+                const allHidden = Array.from(sectionItems).every(item => item.classList.contains('hidden'));
+                
+                if (searchQuery.length > 0) {
+                    section.querySelector('h2').parentElement.style.display = allHidden ? 'none' : 'block';
+                } else {
+                    section.querySelector('h2').parentElement.style.display = 'block';
+                }
+            });
+        }
+        
+      
+        searchBox.addEventListener('input', performSearch);
+        clearSearch.addEventListener('click', function() {
+            searchBox.value = '';
+            performSearch();
+            searchBox.focus();
+        });
+        
+      
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            notification.classList.add('show');
+          
+            setTimeout(() => {
+                closeNotification();
+            }, 3000);
+        }
+        
+        function closeNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.remove('show');
+        }
+        
+       
+        let cart = [];
+        
+        function addToCart(foodName, price) {
+           
+            cart.push({
+                name: foodName,
+                price: price,
+                quantity: 1
+            });
+            
+            
+            showNotification(`${foodName} added to your cart!`);
+            
+            
+            localStorage.setItem('foodCart', JSON.stringify(cart));
+            
+            
+        }
+        
+        
+        window.addEventListener('load', function() {
+            const savedCart = localStorage.getItem('foodCart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+               
+            }
+        });
+    </script>
+</body>
+</html>
